@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+    
+<h2>Are you sure you want to delete {{ delete_songs.name }}?</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Confirm Delete</button>
+  <a href="{% url 'musicapp:songs_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

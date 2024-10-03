@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    {% comment %} <h4 class="mb-0 font-size-18">Bl</h4> {% endcomment %}
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="pt-3">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-8">
+                                    <div>
+                                        <div class="text-center">
+                                            <div class="mb-4"></div>
+                                            <h4>{{ singer_detail.name }}</h4>
+                                            <p class="text-muted mb-4"><i class="mdi mdi-calendar mr-1"></i>{{ singer_detail.created_at|date }}</p>
+                                        </div>
+
+                                        <div class="width-70">
+                                            <img src="{{ singer_detail.image.url }}" alt="" class="img-thumbnail mx-auto d-block">
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="mt-4">
+                                            <div class="text-muted font-size-14">
+                                                <h4>Address: {{ singer_detail.address }}</h4>
+                                            </div>
+                                            <div class="text-muted font-size-14">
+                                                <h4>Date Of Birth: {{ singer_detail.dob }}</h4>
+                                            </div>
+                                            <div class="text-muted font-size-14">
+                                                <h4>Number of Albums: {{ singer_detail.nom_of_album }}</h4>
+                                            </div>
+
+                                            <hr>
+
+                                            <h4>Songs List</h4>
+                                            <div class="mb-4">
+                                                <a href="{% url 'musicapp:songs_add' singer_detail.id %}" class="btn btn-info">Add Song</a>
+                                            </div>
+
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">SN</th>
+                                                        <th scope="col">Song Name</th>
+                                                        <th scope="col">Released Date</th>
+                                                        <th scope="col">Musician</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for i in songs_detail %}
+                                                        <tr>
+                                                            <th scope="row">{{ forloop.counter }}</th>
+                                                            <td>{{ i.name }}</td>
+                                                            <td>{{ i.released_date }}</td>
+                                                            <td><a href="{% url 'musicapp:musician_detail' i.musician.id %}">{{ i.musician }}</a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+
+                                            <!-- Pagination -->
+                                            <nav aria-label="Page navigation">
+                                                <ul class="pagination justify-content-center">
+                                                    <!-- First and Previous Page Links -->
+                                                    {% if songs_detail.has_previous %}
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page=1">First</a>
+                                                        </li>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page={{ songs_detail.previous_page_number }}">Previous</a>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    <!-- Page Numbers -->
+                                                    {% for n in totalpagelist %}
+                                                        <li class="page-item {% if songs_detail.number == n %}active{% endif %}">
+                                                            <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                                                        </li>
+                                                    {% endfor %}
+
+                                                    <!-- Next and Last Page Links -->
+                                                    {% if songs_detail.has_next %}
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page={{ songs_detail.next_page_number }}">Next</a>
+                                                        </li>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page={{ lastpage }}">Last</a>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                            </nav>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        
+    </div> <!-- container-fluid -->
+</div>
+
+{% endblock %}

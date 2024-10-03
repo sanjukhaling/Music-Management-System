@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+<div class="main-container">
+    <div class="page-container">
+        <div class="container-fluid">
+            <div class="row">
+
+                <form method="post">
+                    <h3 class=" m-3">are you sure? you want to delete this {{objects.name}}</h3>
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-info">yes</button>
+                    <a href="{% url 'musicapp:singer_list' %}" class=" btn btn-secondary btn-sm">cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+                            

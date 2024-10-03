@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h2>Singer List</h2>
+                <a href="{% url 'musicapp:singer_add' %}" class="btn btn-info">Add Singer</a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">SN:</th>
+                            <th scope="col">Name:</th>
+                            <th scope="col">Address:</th>
+                            <th scope="col">Image:</th>
+                            <th scope="col">DoB:</th>
+                            <th scope="col">Number of albums:</th>
+                            <th scope="col">Action:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in singerlist %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td><a href="{% url 'musicapp:singer_detail' i.id %}">{{ i.name }}</a></td>
+                                <td>{{ i.address }}</td>
+                                <td>
+                                    {% if i.image %}
+                                        <img src="{{ i.image.url }}" width="70" alt="">
+                                    {% endif %}
+                                </td>
+                                <td>{{ i.dob }}</td>
+                                <td>{{ i.nom_of_album }}</td>
+                                <td>
+                                    <a href="{% url 'musicapp:singer_update' i.id %}" class="btn btn-info btn-sm">Edit</a>
+                                    <a href="{% url 'musicapp:singer_delete' i.id %}" class="btn btn-info btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <!-- First and Previous Page Links -->
+                        {% if singerlist.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ singerlist.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+
+                        <!-- Page Numbers -->
+                        {% for n in totalpagelist %}
+                            <li class="page-item {% if singerlist.number == n %}active{% endif %}">
+                                <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                            </li>
+                        {% endfor %}
+
+                        <!-- Next and Last Page Links -->
+                        {% if singerlist.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ singerlist.next_page_number }}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ lastpage }}">Last</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

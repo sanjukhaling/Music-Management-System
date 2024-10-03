@@ -1,0 +1,11 @@
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+<div class="container">
+    {% if user.is_authenticated %}
+    <h2><a href="{% url 'musicapp:logout' %}">logout</a></h2>
+    <p>you have been successfully logged out.
+    </p>
+    {% endif %}
+</div>
+{% endblock %} {% endcomment %}

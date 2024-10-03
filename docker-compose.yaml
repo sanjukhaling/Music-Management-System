@@ -1,0 +1,48 @@
+
+# version: "3.8"
+
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    image: web:app
+    container_name: my-first_django-container
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    depends_on:
+      - db
+    environment:
+      SECRET_KEY: q-MUiwOxf2Zja7TTiLAwRyOPqZASXBEucphWzigGm6JwG4tulxvlh1q8F-WFcnzRASs
+      DATABASE_NAME: sanju
+      DATABASE_USER: sanju
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOST: db  # matches the db service name
+      DATABASE_PORT: 5432
+    networks:
+      - default
+
+  db:
+    image: postgres:latest
+    container_name: database_container
+    environment:
+      POSTGRES_DB: sanju
+      POSTGRES_USER: sanju
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # persistent volume for database
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sanju"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:  # Volume for database persistence
+
+networks:
+  default:
+    driver: bridge  # Explicitly defining bridge network

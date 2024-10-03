@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="bg-light p-4 rounded shadow-sm">
+
+            <h4 class="mb-4">Add a New Song</h4>
+            <h6 class="mb-4"><a href='musicapp:songs_list' class='btn btn-info'> Go Songs List</a></h6>
+            
+            
+            {% if msg_errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ msg_errors }}
+            </div>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="songName">Song Name</label>
+                    {{ forms.name}}
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="singerName">Singer Name</label>
+                    {{ forms.singer}}
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="releasedDate">Released Date</label>
+                    {{ forms.released_date}}
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="musician">Musician</label>
+                    {{ forms.musician }}
+                </div>
+                <br>
+                <button type="submit" class="btn btn-info">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}

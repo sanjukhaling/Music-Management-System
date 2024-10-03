@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="pt-3">
+                            <div class="row justify-content-center">
+
+                                <div class="col-xl-8">
+                                  
+                                    <div>
+                                        {% comment %} <div class="mb-4">
+                                            <a href="{% url 'musicapp:musician_add'%}" class="badge badge-info font-size-16">Add Contact More </a>
+                                        </div> {% endcomment %}
+                                        <div class="text-center">
+
+                                            <p class="text-muted mb-4"><i class="mdi mdi-calendar mr-1"></i>{{musician_obj.created_at|date}}</p>
+
+
+
+                                        <hr>
+                                        <div class="text-center">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div>
+                                                        <p class="text-muted mb-2">Musician Name:</p>
+                                                        <h5 class="font-size-15">{{musician_obj.name}}</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4 mt-sm-0">
+                                                    <p class="text-muted mb-2">Address:</p>
+                                                    <h5 class="font-size-15">{{musician_obj.address}}</h5>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div>
+                                                        <p class="text-muted mb-2">Date of Birth:</p>
+                                                        <h5 class="font-size-15">{{musician_obj.dob}}</h5>
+                                                    </div>
+                                                </div>
+                                                                                         
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    
+                                        <div class="mt-4">
+                                         
+
+                                            <hr>
+                                            <h5>songs</h5>
+                                            <a href="{% url 'musicapp:songs_add' musician_obj.id %}" class="btn btn-info">Add Song</a>
+
+                                            <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th scope="col">SN:</th>
+                                                    <th scope="col">Song Name:</th>
+                                                    <th scope="col">Released_date:</th>
+                                                    <th scope="col">singer</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for i in music_detail %}
+                                                  <tr>
+                                                    <th scope="row">{{forloop.counter}}</th>
+                                                    <td>{{i.name}}</td>
+                                                    <td>{{i.released_date}}</td>
+                                                    <td>{{i.singer}}</td>
+                                                    <td>
+                                                        <a href="{% url 'musicapp:musician_update' i.id %}" class=" btn btn-info">Edit</a>
+                                                        <a href="{% url 'musicapp:musician_delete' i.id %}" class="btn btn-info">Delete</a>
+                                                    </td>
+
+                                                  </tr>
+                                                  {% endfor %}
+                                                  
+                                                </tbody>
+                                              </table>
+
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        
+    </div> <!-- container-fluid -->
+</div>
+{% endblock %}

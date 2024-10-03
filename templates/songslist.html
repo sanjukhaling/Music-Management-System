@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+<div class="container mt-5 position-relative" style="background-color: #f5f5f5; font-family: Arial, sans-serif;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h5 class='btn btn-info'>Songs List</h5>
+                <p><a href="{% url 'musicapp:songs_add2' %}" class="btn btn-secondary btn-sm font 0.75rem padding 0.25rem 0.7]5rem">Add Song</a><p>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">SN</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Singer Name</th>
+                            <th scope="col">Released Date</th>
+                            <th scope="col">Musician</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in songs_list %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ i.name }}</td>
+                                <td>
+                                    {% if i.singer %}
+                                        <a href="{% url 'musicapp:singer_detail' i.singer.id %}">{{ i.singer.name }}</a>
+                                    {% else %}
+                                        No Singer
+                                    {% endif %}
+                                </td>
+                                <td>{{ i.released_date }}</td>
+                                <td>
+                                    {% if i.musician %}
+                                        <a href="{% url 'musicapp:musician_detail' i.musician.id %}">{{ i.musician.name }}</a>
+                                    {% else %}
+                                        No Musician
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'musicapp:songs_update' i.id %}">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="{% url 'musicapp:songs_delete' i.id %}">
+                                        <i class="bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <!-- First and Previous Page Links -->
+                        {% if songs_list.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ songs_list.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+
+                        <!-- Page Numbers -->
+                        {% for n in totalpagelist %}
+                            <li class="page-item {% if songs_list.number == n %}active{% endif %}">
+                                <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                            </li>
+                        {% endfor %}
+
+                        <!-- Next and Last Page Links -->
+                        {% if songs_list.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ songs_list.next_page_number }}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ lastpage }}">Last</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

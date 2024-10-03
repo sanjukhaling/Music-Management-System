@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+<div class="container">
+    <div class="container_fluid">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="">Musician List</h4>
+                <a href="{% url 'musicapp:musician_add' %}" class="btn btn-info">Add Musician</a>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">SN:</th>
+                        <th scope="col">Name:</th>
+                        <th scope="col">Address:</th>
+                        <th scope="col">Date of birth:</th>
+                        <th scope="col">Action:</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in musicianlist %}
+                      <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><a href="{% url 'musicapp:musician_detail' i.id %}">{{ i.name }}</a></td>
+                        <td>{{ i.address }}</td>
+                        <td>{{ i.dob }}</td>
+                        <td>
+                            <a href="{% url 'musicapp:musician_update' i.id %}" class=" btn btn-info">Edit</a>
+                            <a href="{% url 'musicapp:musician_delete' i.id %}" class="btn btn-info">Delete</a>
+                        </td>
+                      </tr> 
+                      {% empty %}
+                        <tr>
+                          <td colspan="5">No musicians found.</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                  <!-- Pagination -->
+                  <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <!-- First and Previous Page Links -->
+                        {% if musicianlist.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ musicianlist.previous_page_number }}">Previous</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">First</a>
+                            </li>
+                            <li class="page-item disabled">
+                                <a class="page-link">Previous</a>
+                            </li>
+                        {% endif %}
+
+                        <!-- Page Numbers -->
+                        {% for n in totalpagelist %}
+                            <li class="page-item {% if musicianlist.number == n %}active{% endif %}">
+                                <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                            </li>
+                        {% endfor %}
+
+                        <!-- Next and Last Page Links -->
+                        {% if musicianlist.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ musicianlist.next_page_number }}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ lastpage }}">Last</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link">Next</a>
+                            </li>
+                            <li class="page-item disabled">
+                                <a class="page-link">Last</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                  </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

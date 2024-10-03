@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-0 font-size-18 p-4 fw-bold">Singer Form</h4>
+                {% if msg_errors %}
+                <h4 class="card-title mb-4">{{msg_errors}}</h4>
+                {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group col-md-6 m-2">
+            <label for="inputEmail4">Name</label>
+            {{forms.name}}
+
+          </div>
+          <div class="form-group col-md-6 m-2">
+            <label for="inputPassword4">Address</label>
+            {{forms.address}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">image</label>
+          {{forms.image}}
+
+        </div>
+        <div class="form-group">
+          <label for="inputAddress2">DoB</label>
+          {{forms.dob}}
+        </div>
+        <div class="form-group">
+            <label for="inputAddress2">Number of album: </label>
+            {{forms.nom_of_album}}
+          </div>
+
+        <div class="form-group">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+              Check me out
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary m-3">Sign in</button>
+      </form>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+{% endblock %}
